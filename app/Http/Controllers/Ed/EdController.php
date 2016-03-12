@@ -22,12 +22,12 @@ class EdController extends Controller
 
         $serial_number = $request->input('serial_number');
         if($this->userHasExist($serial_number)) {
-            return 'already-exist';
+            return response()->json(['state'=>'already-exist']);
         }
 
         $this->addUser($request);
 
-        return 'sign-up-complete';
+        return response()->json(['state'=>'sign-up-complete']);
     }
 
     public function validation($request){
