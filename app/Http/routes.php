@@ -50,9 +50,9 @@ Route::get('/', function () {
 // 	return 'hihi';
 // });
 
-Route::post('ed/register', 'Ed\EdController@register');
+Route::post('register', 'Ed\EdController@register');
 
-Route::post('ed/login', 'Ed\EdController@login');
+Route::post('login', 'Ed\EdController@login');
 
 Route::post('storeEventToList', 'ListController@store');
 
