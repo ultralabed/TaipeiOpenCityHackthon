@@ -15,9 +15,12 @@ class ListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $lat = $request->input('lat');
+        $lon = $request->input('lon');
+        $lists = ItemList::all();
+        return response()->json($lists);
     }
 
     /**
@@ -42,8 +45,6 @@ class ListController extends Controller
         if($validator->fails()){
             return response()->json([ 'errors' => $validator->errors()->all()]);
         }
-        // var_dump($request);
-        // die();
         $this->addItemToList($request);
         return response()->json(['state'=>'store-event-to-list']);
     }
@@ -56,7 +57,6 @@ class ListController extends Controller
             'lat' => 'required',
             'lon' => 'required',
             'type' => 'required',
-            'process' => 'required',
             'image' => 'required',
             'video' => 'required',
         ]);
