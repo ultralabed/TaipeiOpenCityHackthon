@@ -36,27 +36,34 @@ class ListController extends Controller
      */
     public function store(Request $request)
     {
-        $listItem = new ItemLists;
-        $imageFile = $request->file('image');
-
-        $newImageName = value(function() use ($imageFile){
-            $filename = str_random(20) . '.' . $imageFile->getClientOriginalExtension();
-            return strtolower($filename);
-        });
-
-        $imageFile->move(public_path() . '/upload/');
-
-        // $listItem->name = $request->input('title');
-        // $listItem->email = $request->input('descrp');
-        // $listItem->home_phone = $request->input('lat');
-        // $listItem->mobile_phone = $request->input('lon');
-        // $listItem->serial_number = $request->input('type');
-        // $listItem->address = $request->input('process');
-        // $listItem->image = $newImageName;
-
-        // $listItem->save();
-
-        // return 'sign-up-complete';
+        if($request->file('image')->isValid() && $request->file('video')->isValid()){
+            $listItem = new ItemLists;
+            $imageFile = $request->file('image');
+            $newImageName = value(function() use ($imageFile){
+                $filename = str_random(20) . '.' . $imageFile->getClientOriginalExtension();
+                return strtolower($filename);
+            });
+            $imageFile->move(public_path() . '/upload/', $newImageName);
+            $videoFile = $request->file('video');
+            $newVideoName = value(function() use ($videoFile){
+                $filename = str_random(20) . '.' . $videoFile->getClientOriginalExtension();
+                return strtolower($filename);
+            });
+            $videoFile->move(public_path() . '/upload/', $newVideoName);
+            $listItem->name = $request->input('title');
+            $listItem->email = $request->input('descrp');
+            $listItem->home_phone = $request->input('lat');
+            $listItem->mobile_phone = $request->input('lon');
+            $listItem->serial_number = $request->input('type');
+            $listItem->address = $request->input('process');
+            $listItem->image = $newImageName;
+            $listItem->video = $newVideoName;
+            $listItem->save();
+            return 'upload-complete';
+        }
+        else {
+            return 'upload-fail';
+        }
     }
 
     /**
