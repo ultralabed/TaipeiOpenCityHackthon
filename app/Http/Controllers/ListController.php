@@ -126,7 +126,11 @@ class ListController extends Controller
 
     public function user($id){
         $user = User::find($id);
-        return response()->json($user->Itemlist);
+        if($user){
+            return response()->json($user->Itemlist);
+        }else{
+            return response()->json(['status'=>'User not found']);
+        }
     }
 
 }
