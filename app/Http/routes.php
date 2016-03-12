@@ -27,4 +27,7 @@ Route::post('ed/login', 'Ed\EdController@login');
 
 Route::post('storeEventToList', 'ListController@store');
 
+Route::post('uploadFileToList', 'ListController@uploadFile');
+
+
 

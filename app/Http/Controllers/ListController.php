@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\ItemLists;
+use App\ItemList;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Validator;
+
 
 class ListController extends Controller
 {
@@ -36,34 +38,34 @@ class ListController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->file('image')->isValid() && $request->file('video')->isValid()){
-            $listItem = new ItemLists;
-            $imageFile = $request->file('image');
-            $newImageName = value(function() use ($imageFile){
-                $filename = str_random(20) . '.' . $imageFile->getClientOriginalExtension();
-                return strtolower($filename);
-            });
-            $imageFile->move(public_path() . '/upload/', $newImageName);
-            $videoFile = $request->file('video');
-            $newVideoName = value(function() use ($videoFile){
-                $filename = str_random(20) . '.' . $videoFile->getClientOriginalExtension();
-                return strtolower($filename);
-            });
-            $videoFile->move(public_path() . '/upload/', $newVideoName);
-            $listItem->name = $request->input('title');
-            $listItem->email = $request->input('descrp');
-            $listItem->home_phone = $request->input('lat');
-            $listItem->mobile_phone = $request->input('lon');
-            $listItem->serial_number = $request->input('type');
-            $listItem->address = $request->input('process');
-            $listItem->image = $newImageName;
-            $listItem->video = $newVideoName;
-            $listItem->save();
-            return 'upload-complete';
+        $validator = $this->validation($request);
+        if($validator->fails()){
+            return response()->json([ 'errors' => $validator->errors()->all()]);
         }
-        else {
-            return 'upload-fail';
-        }
+        // var_dump($request);
+        // die();
+        $this->addItemToList($request);
+        return response()->json(['state'=>'store-event-to-list']);
+    }
+
+    public function validation($request){
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'title'=>'required',
+            'descrp'=>'required',
+            'lat' => 'required',
+            'lon' => 'required',
+            'type' => 'required',
+            'process' => 'required',
+            'image' => 'required',
+            'video' => 'required',
+        ]);
+
+        return $validator;
+    }
+
+    public function addItemToList($request){
+        ItemList::create($request->all());
     }
 
     /**
@@ -109,5 +111,16 @@ class ListController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function uploadFile(Request $request)
+    {
+        $file = $request->file('file');
+        $newName = value(function() use ($file){
+            $filename = str_random(20) . '.' . $file->getClientOriginalExtension();
+            return strtolower($filename);
+        });
+        $file->move(public_path() . '/upload/', $newName);
+        return response()->json(['name'=> $newName]);
     }
 }
