@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\User;
+use DB;
 
 
 class ListController extends Controller
@@ -16,11 +17,9 @@ class ListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($lat,$lon)
     {
-        $lat = $request->input('lat');
-        $lon = $request->input('lon');
-        $lists = ItemList::all();
+        $lists = DB::select("select *, SQRT(((lon - $lon )*(lon - $lon) +(lat - $lat)*(lat - $lat ))) AS distance from itemlists ORDER BY distance ASC");
         return response()->json($lists);
     }
 
