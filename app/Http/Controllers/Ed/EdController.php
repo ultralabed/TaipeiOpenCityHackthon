@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 use Validator;
+use Auth;
 
 
 
@@ -14,7 +15,7 @@ class EdController extends Controller
 {
     public function register(Request $request) {
 
-        $validator = $this->validation($request);
+        $validator = $this->registerValidation($request);
 
         if($validator->fails()){
             return response()->json([ 'errors' => $validator->errors()->all()]);
@@ -30,7 +31,7 @@ class EdController extends Controller
         return response()->json(['state'=>'sign-up-complete']);
     }
 
-    public function validation($request){
+    public function registerValidation($request){
         $validator = Validator::make($request->all(), [
             'name'=>'required',
             'email'=>'required|email',
@@ -56,16 +57,31 @@ class EdController extends Controller
         }
     }
 
+    public function loginValidation($request){
+        $validator = Validator::make($request->all(), [
+            'mobile_phone' => 'required',
+            'serial_number' => 'required',
+        ]);
+
+        return $validator;
+    }
+
     public function login(Request $request) {
-        $serial_number_from_input = $request->input('serial_number');
-        $mobile_phone_from_input = $request->input('mobile_phone');
-        $count = User::where('mobile_phone', '=', $mobile_phone_from_input)
-            ->where('serial_number', '=' , $serial_number_from_input)
-            ->count();
-        if($count === 0) {
-            return 'fail';
+
+        $validator = $this->loginValidation($request);
+
+        if($validator->fails()){
+            return response()->json([ 'errors' => $validator->errors()->all()]);
         }
 
-        return 'ok';
+        $serial_number = $request->input('serial_number');
+        $mobile_phone = $request->input('mobile_phone');
+        $user = User::where('serial_number',$serial_number)
+                    ->where('mobile_phone',$mobile_phone);
+        if($user->count() > 0) {
+            return response()->json(['status'=>'login successed','info'=>$user->first()]);
+        }else{
+             return response()->json(['status'=>'login failed']);
+        }
     }
 }
