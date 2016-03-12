@@ -19,7 +19,7 @@ class ListController extends Controller
      */
     public function index($lat,$lon)
     {
-        $lists = Itemlist::selectRaw("id,title,image,process,type,( 6371 * acos(cos(radians($lat))*cos(radians(lat))*cos(radians(lon) - radians($lon)) + sin( radians($lat) )*sin(radians(lat))) ) AS distance")
+        $lists = Itemlist::selectRaw("id,title,image,process,type,created_at,updated_at,( 6371 * acos(cos(radians($lat))*cos(radians(lat))*cos(radians(lon) - radians($lon)) + sin( radians($lat) )*sin(radians(lat))) ) AS distance")
              ->orderBy('distance')
              ->get();
         return response()->json($lists);
