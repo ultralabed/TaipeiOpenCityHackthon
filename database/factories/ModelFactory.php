@@ -12,10 +12,14 @@
 */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
+    $faker->addProvider(new Faker\Provider\kk_KZ\Person($faker));
     return [
         'name' => $faker->name,
         'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'home_phone' => $faker->phoneNumber,
+        'mobile_phone' => $faker->phoneNumber,
+        'serial_number' => $faker->individualIdentificationNumber,
+        'address' => $faker->address,
         'remember_token' => str_random(10),
     ];
 });
