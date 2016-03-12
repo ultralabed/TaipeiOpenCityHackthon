@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
+use App\User;
 
 
 class ListController extends Controller
@@ -123,4 +124,10 @@ class ListController extends Controller
         $file->move(public_path() . '/upload/', $newName);
         return response()->json(['name'=> $newName]);
     }
+
+    public function user($id){
+        $user = User::find($id);
+        return response()->json($user->Itemlist);
+    }
+
 }

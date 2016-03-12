@@ -60,10 +60,5 @@ Route::post('uploadFileToList', 'ListController@uploadFile');
 
 Route::get('lists/{lat}/{lon}','ListController@index');
 
-Route::get('user/{id}/lists',function(){
-    $data = [
-        ['name'=>'list1'],['name'=>'list2'],['name'=>'list3']
-    ];
-    return response()->json($data);
-});
+Route::get('user/{id}/lists','ListController@user');
 
