@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
+use App\ItemLists;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ListController extends Controller
 {
@@ -37,28 +36,27 @@ class ListController extends Controller
      */
     public function store(Request $request)
     {
-        $listItem = new List;
+        $listItem = new ItemLists;
+        $imageFile = $request->file('image');
 
-        $file = Input::file('file');
-        $newName = value(function() use ($file){
-            $filename = str_random(20) . '.' . $file->getClientOriginalExtension();
+        $newImageName = value(function() use ($imageFile){
+            $filename = str_random(20) . '.' . $imageFile->getClientOriginalExtension();
             return strtolower($filename);
         });
-        Input::file('file')->move(public_path() . '/upload', $newName);
-        $table->file_url = '/enviro_control/public/upload/' . $newName;
 
-        $listItem->name = $request->input('title');
-        $listItem->email = $request->input('descrp');
-        $listItem->home_phone = $request->input('lat');
-        $listItem->mobile_phone = $request->input('lon');
-        $listItem->serial_number = $request->input('type');
-        $listItem->address = $request->input('process');
-        $listItem->address = $request->input('process');
-        $listItem->address = $request->input('process');
+        $imageFile->move(public_path() . '/upload/');
 
-        $listItem->save();
+        // $listItem->name = $request->input('title');
+        // $listItem->email = $request->input('descrp');
+        // $listItem->home_phone = $request->input('lat');
+        // $listItem->mobile_phone = $request->input('lon');
+        // $listItem->serial_number = $request->input('type');
+        // $listItem->address = $request->input('process');
+        // $listItem->image = $newImageName;
 
-        return 'sign-up-complete';
+        // $listItem->save();
+
+        // return 'sign-up-complete';
     }
 
     /**
