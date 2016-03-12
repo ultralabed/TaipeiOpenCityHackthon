@@ -24,14 +24,7 @@ class EdController extends Controller
  }
 
  public function addUser($request){
-    $users = new User;
-    $users->name = $request->input('name');
-    $users->email = $request->input('email');
-    $users->home_phone = $request->input('home_phone');
-    $users->mobile_phone = $request->input('mobile_phone');
-    $users->serial_number = $request->input('serial_number');
-    $users->address = $request->input('address');
-    $users->save();
+    User::create($request->all());
  }
 
  public function login(Request $request) {
