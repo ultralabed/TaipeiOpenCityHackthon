@@ -15,7 +15,7 @@ class EdController extends Controller
 {
     public function register(Request $request) {
 
-        $validator = $this->validation($request);
+        $validator = $this->registerValidation($request);
 
         if($validator->fails()){
             return response()->json([ 'errors' => $validator->errors()->all()]);
@@ -31,7 +31,7 @@ class EdController extends Controller
         return response()->json(['state'=>'sign-up-complete']);
     }
 
-    public function validation($request){
+    public function registerValidation($request){
         $validator = Validator::make($request->all(), [
             'name'=>'required',
             'email'=>'required|email',
