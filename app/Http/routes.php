@@ -10,6 +10,35 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::filter(
+    'cors',
+    function ($route, $request, $response) {
+
+        if (! empty($response)) {
+
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->headers->set(
+                'Access-Control-Allow-Methods',
+                'POST, GET, OPTIONS, DELETE, PUT, HEAD'
+            );
+            $response->headers->set(
+                'Access-Control-Allow-Headers',
+                implode(
+                    ', ',
+                    [
+                        'Origin', 'Content-Type', 'Accept', 'Authorization',
+                        'X-Requested-With'
+                    ]
+                )
+            );
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            $response->headers->set('Access-Control-Expose-Headers', '');
+            $response->headers->set('Access-Control-Max-Age', time() + 2629746);
+
+            return $response;
+        }
+    }
+);
 
 Route::get('/', function () {
     return view('welcome');
