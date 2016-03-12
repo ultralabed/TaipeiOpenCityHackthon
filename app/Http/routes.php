@@ -28,6 +28,7 @@ Route::post('storeEventToList', 'ListController@store')->middleware('cors');
 
 Route::post('uploadFileToList', 'ListController@uploadFile')->middleware('cors');
 
+Route::get('list/{id}','ListController@show')->middleware('cors');
 Route::get('lists/{lat}/{lon}','ListController@index')->middleware('cors');
 
 Route::get('user/{id}/lists','ListController@user')->middleware('cors');

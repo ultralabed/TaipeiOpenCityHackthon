@@ -76,7 +76,12 @@ class ListController extends Controller
      */
     public function show($id)
     {
-        //
+        $list = Itemlist::find($id);
+        if($list){
+            return response()->json($list);
+        }else{
+            return response()->json(['statue'=>'Data not found']);
+        }
     }
 
     /**
