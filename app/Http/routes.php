@@ -60,5 +60,5 @@ Route::post('uploadFileToList', 'ListController@uploadFile');
 
 Route::get('lists/{lat}/{lon}','ListController@index');
 
-Route::get('user/{id}/lists',['middleware' => 'cors','ListController@user']);
+Route::get('user/{id}/lists','ListController@user');
 
