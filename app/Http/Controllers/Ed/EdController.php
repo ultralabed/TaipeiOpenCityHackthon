@@ -12,9 +12,8 @@ use App\Http\Controllers\Controller;
 class EdController extends Controller
 {
  public function register(Request $request) {
-    $serial_number_from_input = $request->input('serial_number');
-    $count = User::where('serial_number', $serial_number_from_input)->count();
-    if($count === 1) {
+    $serial_number = $request->input('serial_number');
+    if($this->userHasExist($serial_number)) {
         return 'already-exist';
     }
 
@@ -25,6 +24,15 @@ class EdController extends Controller
 
  public function addUser($request){
     User::create($request->all());
+ }
+
+ public function userHasExist($serial_number){
+    $user = User::where('serial_number', $serial_number);
+    if($user->count() > 0){
+        return true;
+    }else{
+        return false;
+    }
  }
 
  public function login(Request $request) {
