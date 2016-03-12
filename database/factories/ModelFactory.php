@@ -23,3 +23,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Itemlist::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => 1,
+        'title' => $faker->sentence,
+        'descrp'=> $faker->text,
+        'lon' => $faker->latitude,
+        'lat' => $faker->longitude,
+        'image' => 'test.jpg',
+        'video' => 'test.mov',
+        'type' => 'OTHER',
+        'process' => 'unprocessed',
+    ];
+});
