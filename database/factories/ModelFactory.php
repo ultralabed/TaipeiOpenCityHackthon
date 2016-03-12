@@ -31,8 +31,8 @@ $factory->define(App\Itemlist::class, function (Faker\Generator $faker) {
         'descrp'=> $faker->text,
         'lon' => $faker->latitude,
         'lat' => $faker->longitude,
-        'image' => 'test.JPG',
-        'video' => 'test.MOV',
+        'image' => 'test.jpg',
+        'video' => 'test.mov',
         'type' => 'OTHER',
         'process' => 'unprocessed',
     ];
