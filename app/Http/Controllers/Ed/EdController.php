@@ -17,6 +17,13 @@ class EdController extends Controller
     if($count === 1) {
         return 'already-exist';
     }
+
+    $this->addUser($request);
+
+    return 'sign-up-complete';
+ }
+
+ public function addUser($request){
     $users = new User;
     $users->name = $request->input('name');
     $users->email = $request->input('email');
@@ -25,9 +32,8 @@ class EdController extends Controller
     $users->serial_number = $request->input('serial_number');
     $users->address = $request->input('address');
     $users->save();
-
-    return 'sign-up-complete';
  }
+
  public function login(Request $request) {
     $serial_number_from_input = $request->input('serial_number');
     $mobile_phone_from_input = $request->input('mobile_phone');
