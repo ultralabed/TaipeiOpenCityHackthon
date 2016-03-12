@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ItemList extends Model
+class Itemlist extends Model
 {
   protected $table = 'itemlists';
 

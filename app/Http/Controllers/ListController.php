@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\ItemList;
+use App\Itemlist;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
