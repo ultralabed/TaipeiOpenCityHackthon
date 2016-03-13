@@ -134,7 +134,7 @@ class ListController extends Controller
     public function user($id){
         $user = User::find($id);
         if($user){
-            return response()->json($user->Itemlist);
+            return response()->json($user->Itemlist()->orderBy('id','desc')->get());
         }else{
             return response()->json(['status'=>'User not found']);
         }
