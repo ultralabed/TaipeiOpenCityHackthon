@@ -1,5 +1,7 @@
 <?php
 
+use App\Garbagebox;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -33,3 +35,7 @@ Route::get('lists/{lat}/{lon}','ListController@index')->middleware('cors');
 
 Route::get('user/{id}/lists','ListController@user')->middleware('cors');
 
+Route::get('garbageboxes',function(){
+    $garbageboxes = Garbagebox::all();
+    return response()->json($garbageboxes);
+});
